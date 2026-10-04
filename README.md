@@ -1,61 +1,44 @@
-# TitipO-TownHall — Community Commerce (Penyerap Pasokan Lumbung)
+> Versi: v1.0.0 | Status: disetujui | Menggantikan: -
 
-> **Tujuan:** Keputusan tunggal TitipO: menghubungkan rumah tangga dengan vendor terpercaya untuk titip harian, menyerap pasokan Lumbung.
-> **Pemilik:** Tim Produk TitipO (pemilik TownHall), Tim Operasi (pelaksana vendor), Tim Mobile KMP + Tim Web Bun (pelaksana teknis).
-> **Status:** Varian 1 — Bahasa Indonesia, nol TBD. Semua angka di dokumen adalah keputusan berlaku.
+# TitipO-TownHall — Divisi Community Commerce PT ChefGenie
 
-## 1. Peran TitipO
+## Peran TitipO
 
-TitipO adalah **Community Commerce** — penyerap pasokan Lumbung. Lumbung memasok bahan baku; TitipO menyalurkannya lewat vendor kurasi (warung, tukang sayur, dapur rumahan) ke rumah tangga dengan pola **titip harian**: pesan maksimal 20.00, serah besok 06.00–08.00, bayar QRIS di muka, fee vendor 12% cair H+1.
+TitipO adalah divisi community commerce PT ChefGenie: menghubungkan rumah tangga dengan vendor terpercaya untuk titip harian, sekaligus menyerap pasokan Lumbung. Aturan inti v1.0.0: pesan maksimal pukul 20.00, serah besok 06.00–08.00, bayar QRIS di muka, fee vendor 12 persen cair H+1. Sukses = loyalitas: repeat-order minimal 40 persen. Bukan grosir B2B, bukan instan same-day, bukan marketplace bebas: semua SKU berasal dari sinkron Lumbung, tanpa item manual. Basis data: DB titipo. Autentikasi: JWT pengguna beraudien titipo (verifikasi via JWKS Lumbung) ditambah service key titipo ke lumbung untuk panggilan server-ke-server.
 
-Yang bukan TitipO (Varian 1): bukan grosir B2B, bukan instan same-day, bukan marketplace bebas (semua SKU dari sinkron Lumbung, tanpa item manual).
+## Peta Versi Aktif
 
-Contoh: Ibu Ani menitip 2 kg bayam + 1 kg telur Rp52.000 ke Warung Sari; Sari ambil pasokan di titik Lumbung Blok A pukul 04.30, serah 06.40 + foto, terima Rp9.640 (fee + ongkir).
+- Versi aktif: v1.0.0 (disetujui). Isi beku ada di `versions/v1.0.0/`.
+- `versions/v1.0.0/CHANGELOG.md` — ringkasan versi awal.
+- `versions/v1.0.0/BRD/` — kebutuhan bisnis BR-001 dan seterusnya.
+- `versions/v1.0.0/PRD/` — pengguna dan kriteria US-001 dan seterusnya.
+- `versions/v1.0.0/FRD/` — kebutuhan fungsional FR-001 dan seterusnya.
+- `versions/v1.0.0/FSD/` — rancangan alur, model data pesanan, dan kontrak API mobile serta web admin.
+- `versions/v1.0.0/SNAPSHOT-ROADMAP.md` — salinan beku janji v1.0.0.
+- Peta hidup lintas versi ada di `roadmap/`: `TIMELINE.md`, `MILESTONE.md`, `ROADMAP.md`.
 
-## 2. Peta folder
+## Cara Baca History
 
-```
-TitipO-TownHall/
-├── README.md                          # dokumen ini
-├── vendor/
-│   ├── 00-piagam-vendor-terpercaya.md # syarat, tingkatan, sanksi
-│   └── 10-sla-vendor.md               # target waktu, kualitas, denda
-├── pesanan/
-│   ├── 10-alur-titip-harian.md        # 8 langkah + mesin status
-│   └── 20-model-data.md               # skema PostgreSQL + SQLDelight + contoh
-├── produk/
-│   ├── 10-ux-pesan-titip.md           # 5 layar rumah + 3 layar vendor
-│   ├── 20-kontrak-api-KMP-mobile.md   # 7 endpoint mobile (Idempotency-Key)
-│   ├── 21-kontrak-api-web-bun.md      # 6 endpoint admin + 4 job
-│   └── 30-modul-KMP-bersama.md        # shared/ui-bersama/fitur-rumah/fitur-vendor
-├── platform/
-│   ├── 10-matriks-KMP-web.md          # siapa membangun apa
-│   ├── 40-mobile-KMP.md               # Android 8+/iOS 16+, offline-first
-│   ├── 50-web-bun-svelte.md           # Bun 1.4 + Svelte 5 + SvelteKit 2 + TS 5.9
-│   └── 60-offline-sinkron.md          # antrean + konflik first-arrival-wins
-├── keuangan/
-│   └── 10-bagi-fee.md                 # fee 12%, bonus 0,5%, denda Rp15.000
-└── metrik/
-    └── 10-repeat-order.md              # bintang utara repeat ≥ 40%
-```
+1. Mulai dari `versions/v1.0.0/CHANGELOG.md` untuk ringkasan versi.
+2. Lanjut ke `versions/v1.0.0/BRD/00-ikhtisar.md` untuk konteks bisnis, lalu `PRD/10-pengguna.md` untuk peran.
+3. Untuk janji waktu itu, baca `versions/v1.0.0/SNAPSHOT-ROADMAP.md` yang sudah dibekukan dan tidak diubah lagi.
+4. Untuk kondisi terkini lintas versi, baca `roadmap/TIMELINE.md` dan `roadmap/MILESTONE.md`.
+5. Riwayat perubahan antar versi dilacak lewat `git log` dan `CHANGELOG.md` tiap versi. File lama sengaja dihapus setelah dipindah dengan `git mv` agar tidak ada dua sumber kebenaran.
 
-## 3. Stack (dikunci Varian 1)
+## TownHall Lain dan Pedoman Induk
 
-- **Mobile:** Kotlin Multiplatform + Compose Multiplatform 1.7.x + Navigation3 (Android 8+ / iOS 16+, 1 codebase 2 role: vendor + rumah tangga). Offline-first queue pesanan untuk vendor.
-- **Web admin:** Bun 1.4.x + Svelte 5 + SvelteKit 2 + TypeScript 5.9.x + PostgreSQL 16.
-- **Tanpa desktop.** Tanpa web untuk pembeli/vendor.
-- **Stok/katalog disinkron dari Lumbung:** job Bun 04.00 WIB → snapshot cermin; mobile tarik + stempel 24 jam; checkout menolak SKU kedaluwarsa (409).
+Pedoman induk: https://github.com/Coding-Skuy/ChefGenie-TownHall.
 
-## 4. Tautan ke Lumbung-TownHall
+Pola yang ditiru: pola template emas https://github.com/Coding-Skuy/Lumbung-TownHall — penamaan `versions/vX.Y.Z/BRD|PRD|FRD|FSD/`, file `NN-nama-kebab.md`, header versi satu baris, dan bagian Batasan di tiap file.
 
-- Acuan model fee / harga pokok: https://github.com/Coding-Skuy/Lumbung-TownHall/blob/main/keuangan/model-fee.md
-- Aturan rekonsiliasi mingguan (Senin 09.00, susut 50:50 maks Rp200.000/minggu): `keuangan/10-bagi-fee.md` §4.
-- Semua `sku_lumbung` di TitipO merujuk katalog Lumbung; TitipO tidak membuat SKU sendiri.
+TownHall lain:
 
-## 5. Mulai dari sini (urutan baca)
+- https://github.com/Coding-Skuy/Pawonee-TownHall — dapur dan pengolahan.
+- https://github.com/Coding-Skuy/Pasaree-TownHall — pasar dan penjualan.
+- https://github.com/Coding-Skuy/Pedaree-TownHall — pengantar dan last-mile.
+- https://github.com/Coding-Skuy/Titeny-TownHall — ketelitian dan audit mutu.
+- https://github.com/Coding-Skuy/Lumbung-TownHall — hulu pasokan, sumber katalog TitipO.
 
-1. `vendor/00-piagam-vendor-terpercaya.md` → siapa boleh jualan.
-2. `pesanan/10-alur-titip-harian.md` → bagaimana titip berjalan.
-3. `produk/20-kontrak-api-KMP-mobile.md` + `produk/30-modul-KMP-bersama.md` → bangun mobile.
-4. `platform/60-offline-sinkron.md` → pastikan luring benar.
-5. `keuangan/10-bagi-fee.md` + `metrik/10-repeat-order.md` → ukur uang dan loyalitas.
+## Batasan
+
+Batasan ruang lingkup repo ini: hanya kurasi vendor, titip harian pesan maksimal 20.00 serah 06.00–08.00, fee 12 persen, repeat-order minimal 40 persen, kontrak API TitipO, dan sinkron katalog dari Lumbung. Di luar batas: produksi bahan baku dan papan harga milik Lumbung, resep dapur milik Pawonee, harga ecer pasar milik Pasaree, routing last-mile milik Pedaree, dan audit independen milik Titeny. Semua angka di dokumen versi adalah keputusan berlaku.
