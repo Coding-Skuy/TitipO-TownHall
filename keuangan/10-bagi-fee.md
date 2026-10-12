@@ -15,7 +15,7 @@ bersih_vendor = fee_vendor + bonus_prioritas − denda
 kas_titipo = total_item − bersih_vendor − pokok_lumbung
 ```
 
-Keterangan: `pokok_lumbung` = harga pokok dari Lumbung per SKU (acuan: https://github.com/Coding-Skuy/Lumbung-TownHall/blob/main/keuangan/model-fee.md). TitipO tidak mengubah harga pokok; margin TitipO = sisa setelah fee vendor dan pokok.
+Keterangan: `pokok_lumbung` = harga pokok dari Lumbung per SKU (acuan: https://github.com/Coding-Skuy/Lumbung-TownHall/blob/main/keuangan/10-model-fee-per-kg.md). TitipO tidak mengubah harga pokok; margin TitipO = sisa setelah fee vendor dan pokok.
 
 Ongkir Rp5.000 flat: Rp4.000 untuk vendor (pengantar), Rp1.000 kas TitipO (infrastruktur). Tidak masuk `total_item`.
 
@@ -51,4 +51,4 @@ Contoh ledger:
 
 - Piagam: `vendor/00-piagam-vendor-terpercaya.md`
 - SLA: `vendor/10-sla-vendor.md`
-- Acuan Lumbung: https://github.com/Coding-Skuy/Lumbung-TownHall/blob/main/keuangan/model-fee.md
+- Acuan Lumbung: https://github.com/Coding-Skuy/Lumbung-TownHall/blob/main/keuangan/10-model-fee-per-kg.md

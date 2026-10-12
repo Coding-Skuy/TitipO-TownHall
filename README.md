@@ -2,6 +2,9 @@
 
 > Selamat datang, Pengelana. Anda berada di jantung dokumentasi TitipO.
 > Pilih jalan Anda untuk memahami ekosistem ChefGenie.
+>
+> **Tautan ke visi:** TitipO adalah jalur harian visi ChefGenie — vendor
+> terpercaya, fee 12% terbuka. Lihat [VISI-MISI](../../VISI-MISI.md).
 
 ---
 

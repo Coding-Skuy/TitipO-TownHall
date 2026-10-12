@@ -68,4 +68,4 @@ calon (daftar) → verifikasi 1x24 jam → aktif (kuota 30/hari)
 - Alur pesanan: `pesanan/10-alur-titip-harian.md`
 - Model data: `pesanan/20-model-data.md`
 - Bagi fee: `keuangan/10-bagi-fee.md`
-- Acuan pasokan Lumbung: https://github.com/Coding-Skuy/Lumbung-TownHall/blob/main/keuangan/model-fee.md
+- Acuan pasokan Lumbung: https://github.com/Coding-Skuy/Lumbung-TownHall/blob/main/keuangan/10-model-fee-per-kg.md

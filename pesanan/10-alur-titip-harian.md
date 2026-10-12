@@ -50,9 +50,34 @@ Keputusan konkret: timeout konfirmasi 30 menit dieksekusi job Bun tiap 1 menit (
 2. Aksi yang tidak bisa luring: checkout dan pembayaran rumah tangga (wajib online).
 3. Konflik (2 vendor klaim stok sama saat luring) dimenangkan oleh konfirmasi yang tiba di server lebih dulu; yang kalah otomatis dialihkan.
 
-## 6. Kaitan dokumen
+## 6. Sinyal demand Pedaree — sisi konsumen (kontrak bilateral V1)
+
+> Produsen: Pedaree menerbitkan `pedaree.stok.v1` (lihat Pedaree
+> `platform/versions/v1.0.0/BRD/30-demand-metrik.md` BR-301/BR-305).
+> TitipO adalah satu-satunya konsumen. Event ini BUKAN bagian registry
+> 11 event Titeny (Titeny melihat efeknya lewat `transaksi.dibuat`).
+
+1. **Jenis terkunci (3):** `stok.menipis`, `stok.habis`, `kedaluwarsa.dekat`.
+   Jenis di luar ini ditolak dengan `422 JENIS_SINYAL_TIDAK_DIKENAL`.
+2. **Payload (wajib):** `item, sisa, satuan` (salah satu dari 13 satuan baku
+   Pedaree), `kedaluwarsa`, `recipe_id` Pawonee (boleh kosong bila tidak ada).
+3. **Dedup:** produsen mengirim maks 1 per item per 24 jam; konsumen
+   mengabaikan duplikat dengan kunci `item_id + tanggal`
+   (respons `200 {"status":"duplikat_diabaikan"}` — bukan error).
+4. **Aturan konsumen (anjuran, bukan perintah):** sinyal hanya menjadi daftar
+   saran restock di aplikasi vendor + bahan pertimbangan katalog; sinyal
+   TIDAK PERNAH membuat pesanan otomatis. Keputusan akhir milik TitipO/vendor.
+   Relevansi anjuran 48 jam (target BR-303: 60% sinyal MENIPIS berujung pesan
+   TitipO dalam 48 jam).
+5. **Batas:** di luar batas adalah logika penawaran TitipO (tetap milik
+   TitipO) dan skema resep Pawonee; `recipe_id` hanya diteruskan untuk
+   tampilan, tidak dieksekusi.
+
+## 7. Kaitan dokumen
 
 - Model data: `pesanan/20-model-data.md`
 - UX pesan: `produk/10-ux-pesan-titip.md`
 - Offline: `platform/60-offline-sinkron.md`
 - Metrik: `metrik/10-repeat-order.md`
+- Produsen sinyal: Pedaree `platform/versions/v1.0.0/BRD/30-demand-metrik.md`
+  (BR-301 s.d. BR-305)
